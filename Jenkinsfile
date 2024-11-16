@@ -14,7 +14,9 @@ pipeline {
         }
         stage('login ECR') {
             steps {
-                sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 019290991235.dkr.ecr.us-east-2.amazonaws.com'
+                withAWS(region: 'us-east-2', credentials: 'aws-cred') {
+                    sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 019290991235.dkr.ecr.us-east-2.amazonaws.com'
+                }
             }
         }
         stage('push') {
